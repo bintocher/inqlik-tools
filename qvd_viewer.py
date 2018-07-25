@@ -109,12 +109,9 @@ class QvdViewerCommand(sublime_plugin.TextCommand):
         self.addLine('```QlikView')
         self.addLine('')
         self.addLine('LOAD')
-        comma = ','
-        for field in table.fields:
-            if field.fieldName == table.fields[-1].fieldName:
-                comma = ''
-            self.addLine('  ' + field.fieldName + comma)
-        self.addLine('    FROM [' + self.path+'] (QVD);')
+        result = '\t, '.join([field.fieldName + '\n' for field in table.fields])
+        self.addLine('\t' + result[:-1])
+        self.addLine('FROM [' + self.path+'] (QVD);')
         self.addLine('')
         self.addLine('```')
         self.closeOthers(viewHeader)
